@@ -6,21 +6,21 @@ LABEL name="PostgreSQL Container Images" \
     version="${PG_VERSION}" \
     release="10" \
     summary="PostgreSQL Container images." \
-    description="This Docker image contains PostgreSQL and Barman Cloud based on Postgres 16.0-bullseye."
+    description="This Docker image contains PostgreSQL and Barman Cloud based on Postgres ${PG_MAJOR}-bullseye."
 
-LABEL org.opencontainers.image.description="This Docker image contains PostgreSQL and Barman Cloud based on Postgres 15.0-bullseye."
+LABEL org.opencontainers.image.description="This Docker image contains PostgreSQL and Barman Cloud based on Postgres ${PG_MAJOR}-bullseye."
 
 COPY requirements.txt /
 
-RUN apt-get update \
-    && apt-get install -y wget \
-    && rm -rf /var/lib/apt/lists/*
+RUN set -xe; \
+    apt-get update; \
+    apt-get install -y wget; \
+    rm -rf /var/lib/apt/lists/*;
 
 RUN echo "deb https://packagecloud.io/timescale/timescaledb/debian/ bullseye main" | tee /etc/apt/sources.list.d/timescaledb.list
 
 RUN wget --quiet -O - https://packagecloud.io/timescale/timescaledb/gpgkey | apt-key add -
 
-ARG PG_MAJOR=15
 # Install additional extensions
 RUN set -xe; \
     apt-get update; \
