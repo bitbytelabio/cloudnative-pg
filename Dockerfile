@@ -22,7 +22,10 @@ RUN set -xe; \
     apt-get install -y wget; \
     rm -rf /var/lib/apt/lists/*;
 
-RUN echo "deb https://packagecloud.io/timescale/timescaledb/debian/ bullseye main" | tee /etc/apt/sources.list.d/timescaledb.list
+ARG OS_BASE=debian
+ARG OS_CODE_NAME=bullseye
+
+RUN echo "deb https://packagecloud.io/timescale/timescaledb/${OS_BASE}/ ${OS_CODE_NAME} main" | tee /etc/apt/sources.list.d/timescaledb.list
 
 RUN wget --quiet -O - https://packagecloud.io/timescale/timescaledb/gpgkey | apt-key add -
 
