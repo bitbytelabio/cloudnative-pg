@@ -3,7 +3,7 @@ ARG IMAGE_VERSION=15.0-bullseye
 FROM postgres:${IMAGE_VERSION}
 
 ARG IMAGE_VERSION
-# Do not split the description, otherwise we will see a blank space in the labels
+
 LABEL name="PostgreSQL Container Images" \
     vendor="The CloudNativePG Contributors" \
     version="${PG_VERSION}" \
@@ -17,6 +17,7 @@ LABEL org.opencontainers.image.source https://github.com/bitbytelabio/pg-docker
 
 COPY requirements.txt /
 
+# Install additional packages
 RUN set -xe; \
     apt-get update; \
     apt-get install -y wget; \
@@ -25,9 +26,9 @@ RUN set -xe; \
 ARG OS_BASE=debian
 ARG OS_CODE_NAME=bullseye
 
-RUN echo "deb https://packagecloud.io/timescale/timescaledb/${OS_BASE}/ ${OS_CODE_NAME} main" | tee /etc/apt/sources.list.d/timescaledb.list
-
-RUN wget --quiet -O - https://packagecloud.io/timescale/timescaledb/gpgkey | apt-key add -
+# Install timescaledb repository
+RUN echo "deb https://packagecloud.io/timescale/timescaledb/${OS_BASE}/ ${OS_CODE_NAME} main" | tee /etc/apt/sources.list.d/timescaledb.list; \
+    wget --quiet -O - https://packagecloud.io/timescale/timescaledb/gpgkey | apt-key add -
 
 # Install additional extensions
 RUN set -xe; \
