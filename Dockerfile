@@ -1,14 +1,19 @@
-FROM postgres:15.0-bullseye
+ARG IMAGE_VERSION=15.0-bullseye
 
+FROM postgres:${IMAGE_VERSION}
+
+ARG IMAGE_VERSION
 # Do not split the description, otherwise we will see a blank space in the labels
 LABEL name="PostgreSQL Container Images" \
     vendor="The CloudNativePG Contributors" \
     version="${PG_VERSION}" \
     release="10" \
     summary="PostgreSQL Container images." \
-    description="This Docker image contains PostgreSQL and Barman Cloud based on Postgres ${PG_MAJOR}-bullseye."
+    description="This Docker image contains PostgreSQL and Barman Cloud based on Postgres ${IMAGE_VERSION}."
 
-LABEL org.opencontainers.image.description="This Docker image contains PostgreSQL and Barman Cloud based on Postgres ${PG_MAJOR}-bullseye."
+LABEL org.opencontainers.image.description="This Docker image contains PostgreSQL and Barman Cloud based on Postgres ${IMAGE_VERSION}."
+
+LABEL org.opencontainers.image.source https://github.com/bitbytelabio/pg-docker
 
 COPY requirements.txt /
 
