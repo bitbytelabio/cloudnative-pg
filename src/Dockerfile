@@ -1,8 +1,8 @@
-ARG IMAGE_VERSION=15.0-bullseye
+ARG IMAGE_VERSION=15-bookworm
 
 FROM postgres:${IMAGE_VERSION}
 
-LABEL org.opencontainers.image.description="This Docker image contains PostgreSQL and Barman Cloud based on Postgres ${IMAGE_VERSION}."
+LABEL org.opencontainers.image.description="This Docker image contains PostgreSQL, TimescaleDB and Barman Cloud."
 
 LABEL org.opencontainers.image.source https://github.com/bitbytelabio/pg-docker
 
@@ -15,7 +15,7 @@ RUN set -xe; \
     rm -rf /var/lib/apt/lists/*;
 
 # Install timescaledb repository
-RUN echo "deb https://packagecloud.io/timescale/timescaledb/debian/ bullseye main" | tee /etc/apt/sources.list.d/timescaledb.list; \
+RUN echo "deb https://packagecloud.io/timescale/timescaledb/debian/ bookworm main" | tee /etc/apt/sources.list.d/timescaledb.list; \
     wget --quiet -O - https://packagecloud.io/timescale/timescaledb/gpgkey | apt-key add -
 
 # Install additional extensions
@@ -30,20 +30,16 @@ RUN set -xe; \
     rm -fr /tmp/* ; \
     rm -rf /var/lib/apt/lists/*;
 
+# Install barman-cloud
 RUN set -xe; \
     apt-get update; \
     apt-get install -y --no-install-recommends \
-    python3-pip \
-    python3-psycopg2 \
-    python3-setuptools \
-    python-snappy \
+    barman \
+    barman-cli \
+    barman-cli-cloud \
     ; \
     rm -fr /tmp/* ; \
-    rm -rf /var/lib/apt/lists/*; 
-
-# Install barman-cloud
-RUN pip3 install --upgrade pip; \
-    pip3 install --no-deps -r requirements.txt; 
+    rm -rf /var/lib/apt/lists/*;
 
 # Change the uid of postgres to 26
 RUN usermod -u 26 postgres
