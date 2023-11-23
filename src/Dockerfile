@@ -6,8 +6,6 @@ LABEL org.opencontainers.image.description="This Docker image contains PostgreSQ
 
 LABEL org.opencontainers.image.source https://github.com/bitbytelabio/pg-docker
 
-COPY requirements.txt /
-
 # Install additional packages
 RUN set -xe; \
     apt-get update; \
