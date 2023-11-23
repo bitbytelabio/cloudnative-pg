@@ -1,4 +1,4 @@
-ARG IMAGE_VERSION=15.0-bullseye
+ARG IMAGE_VERSION=15.0-bookworm
 
 FROM postgres:${IMAGE_VERSION}
 
@@ -23,11 +23,8 @@ RUN set -xe; \
     apt-get install -y wget; \
     rm -rf /var/lib/apt/lists/*;
 
-ARG OS_BASE=debian
-ARG OS_CODE_NAME=bullseye
-
 # Install timescaledb repository
-RUN echo "deb https://packagecloud.io/timescale/timescaledb/${OS_BASE}/ ${OS_CODE_NAME} main" | tee /etc/apt/sources.list.d/timescaledb.list; \
+RUN echo "deb https://packagecloud.io/timescale/timescaledb/debian/ bookworm main" | tee /etc/apt/sources.list.d/timescaledb.list; \
     wget --quiet -O - https://packagecloud.io/timescale/timescaledb/gpgkey | apt-key add -
 
 # Install additional extensions
@@ -38,21 +35,25 @@ RUN set -xe; \
     "postgresql-${PG_MAJOR}-pgvector" \
     "postgresql-${PG_MAJOR}-pg-failover-slots" \
     "timescaledb-2-postgresql-${PG_MAJOR}" \
+    barman \
     ; \
     rm -fr /tmp/* ; \
     rm -rf /var/lib/apt/lists/*;
 
-# Install barman-cloud
-RUN set -xe; \
-    apt-get update; \
-    apt-get install -y --no-install-recommends \
-    python3-pip \
-    python3-psycopg2 \
-    python3-setuptools \
-    ; \
-    pip3 install --upgrade pip; \
-    pip3 install --no-deps -r requirements.txt; \
-    rm -rf /var/lib/apt/lists/*;
+# RUN set -xe; \
+#     apt-get update; \
+#     apt-get install -y --no-install-recommends \
+#     python3-pip \
+#     python3-psycopg2 \
+#     python3-setuptools \
+#     python-snappy \
+#     ; \
+#     rm -fr /tmp/* ; \
+#     rm -rf /var/lib/apt/lists/*; 
+
+# # Install barman-cloud
+# RUN pip3 install --upgrade --break-system-packages pip; \
+#     pip3 install --no-deps --break-system-packages -r requirements.txt; 
 
 # Change the uid of postgres to 26
 RUN usermod -u 26 postgres
