@@ -1,19 +1,8 @@
-# build:
-#     docker build -t ghcr.io/bitbytelabio/postgres:15 --build-arg IMAGE_VERSION=15-bullseye .
-#     docker build -t reg.bitbytelab.io/private/postgres:15 \
-#         --build-arg IMAGE_VERSION=15-bullseye \
-#         --build-arg OS_BASE=debian \
-#         --build-arg OS_CODE_NAME=bullseye \
-# .
+publish version:
+    docker push ghcr.io/bitbytelabio/postgres:{{version}}
 
-publish:
-    docker push ghcr.io/bitbytelabio/postgres:15
-    docker push reg.bitbytelab.local/private/postgres:15
-
-build type:
+build version:
     docker build -t \
-        reg.bitbytelab.local/private/postgres:15-{{type}} \
-        --build-arg IMAGE_VERSION=15-bookworm \
-        --build-arg OS_BASE=debian \
-        --build-arg OS_CODE_NAME=bookworm \
-        {{type}} \
+        ghcr.io/bitbytelabio/postgres:{{version}} \
+        --build-arg IMAGE_VERSION={{version}}-bookworm \
+        src

@@ -9,6 +9,7 @@ LABEL org.opencontainers.image.source https://github.com/bitbytelabio/pg-docker
 # Install additional packages
 RUN set -xe; \
     apt-get update; \
+    apt-get full-upgrade -y; \
     apt-get install -y wget; \
     rm -rf /var/lib/apt/lists/*;
 
@@ -38,6 +39,10 @@ RUN set -xe; \
     ; \
     rm -fr /tmp/* ; \
     rm -rf /var/lib/apt/lists/*;
+
+RUN set -xe; \
+    apt-get update; \
+    apt-get autoclean && apt-get autoremove -y
 
 # Change the uid of postgres to 26
 RUN usermod -u 26 postgres
