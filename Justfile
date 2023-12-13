@@ -1,5 +1,5 @@
-publish version:
-    docker push ghcr.io/bitbytelabio/postgres:{{version}}
+publish version os:
+    docker push ghcr.io/bitbytelabio/postgres-{{os}}:{{version}}
 
 build version os:
     docker build -t \

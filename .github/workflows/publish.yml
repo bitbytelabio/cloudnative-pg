@@ -36,5 +36,5 @@ jobs:
 
       - name: Publish Docker image
         run: |
-          just publish ${{ matrix.version }}
+          just publish ${{ matrix.version }} ${{ matrix.os }}
       
