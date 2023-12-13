@@ -6,7 +6,7 @@ FROM postgres:${IMAGE_VERSION}
 
 LABEL org.opencontainers.image.description="This Docker image contains PostgreSQL, TimescaleDB and Barman Cloud."
 
-LABEL org.opencontainers.image.source https://github.com/bitbytelabio/pg-docker
+LABEL org.opencontainers.image.source https://github.com/bitbytelabio/cloudnative-pg
 
 # Install additional packages
 RUN set -xe; \
@@ -45,7 +45,6 @@ RUN set -xe; \
     rm -rf /var/lib/apt/lists/*;
 
 RUN set -xe; \
-    apt-get update; \
     apt-get autoclean && apt-get autoremove -y
 
 # Change the uid of postgres to 26
