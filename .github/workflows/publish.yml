@@ -30,4 +30,7 @@ jobs:
       - name: Build Docker image
         run: |
           just build ${{ matrix.version }} ${{ matrix.os }}
-          just publish ${{ matrix.version }}
+      - name: Publish Docker image
+        run: |
+          just publish ${{ matrix.version }} ${{ matrix.os }}
+      
