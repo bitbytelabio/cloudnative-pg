@@ -32,7 +32,6 @@ jobs:
       - name: Build Docker image
         run: |
           just build ${{ matrix.version }} ${{ matrix.os }}
-          just publish ${{ matrix.version }}
 
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
