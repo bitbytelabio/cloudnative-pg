@@ -1,4 +1,6 @@
-ARG IMAGE_VERSION=15-bookworm
+ARG PG_VERSION=15
+ARG OS_RELEASE=bookworm
+ARG IMAGE_VERSION=${PG_VERSION}-${OS_RELEASE}
 
 FROM postgres:${IMAGE_VERSION}
 
@@ -13,8 +15,10 @@ RUN set -xe; \
     apt-get install -y wget; \
     rm -rf /var/lib/apt/lists/*;
 
+ARG OS_RELEASE=bookworm
+
 # Install timescaledb repository
-RUN echo "deb https://packagecloud.io/timescale/timescaledb/debian/ bookworm main" | tee /etc/apt/sources.list.d/timescaledb.list; \
+RUN echo "deb https://packagecloud.io/timescale/timescaledb/debian/ ${OS_RELEASE} main" | tee /etc/apt/sources.list.d/timescaledb.list; \
     wget --quiet -O - https://packagecloud.io/timescale/timescaledb/gpgkey | apt-key add -
 
 # Install additional extensions
