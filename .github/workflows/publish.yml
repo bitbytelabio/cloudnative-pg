@@ -11,6 +11,9 @@ jobs:
   publish:
     name: Publish Docker image
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     strategy:
       matrix:
         version: [14, 15, 16]
