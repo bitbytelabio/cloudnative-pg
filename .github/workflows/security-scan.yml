@@ -27,7 +27,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - uses: extractions/setup-just@v1
+      - uses: extractions/setup-just@v2
 
       - name: Build Docker image
         run: |
