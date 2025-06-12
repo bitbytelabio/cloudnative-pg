@@ -2,11 +2,11 @@ name: Security scan
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
   schedule:
-    - cron: '37 15 * * 3'
+    - cron: "37 15 * * 3"
 
 permissions:
   contents: read
@@ -21,7 +21,7 @@ jobs:
     runs-on: "ubuntu-latest"
     strategy:
       matrix:
-        version: [14, 15, 16]
+        version: [14, 15, 16, 17]
         os: ["bookworm", "bullseye"]
     steps:
       - name: Checkout code
@@ -36,13 +36,13 @@ jobs:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'ghcr.io/bitbytelabio/postgres:${{ matrix.version }}'
-          format: 'template'
-          template: '@/contrib/sarif.tpl'
-          output: 'trivy-results.sarif'
-          severity: 'CRITICAL,HIGH,MEDIUM,LOW'
+          image-ref: "ghcr.io/bitbytelabio/postgres:${{ matrix.version }}"
+          format: "template"
+          template: "@/contrib/sarif.tpl"
+          output: "trivy-results.sarif"
+          severity: "CRITICAL,HIGH,MEDIUM,LOW"
 
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: 'trivy-results.sarif'
+          sarif_file: "trivy-results.sarif"
